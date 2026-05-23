@@ -67,6 +67,7 @@ const TYPING_TEXTS = [
 
 export default function Landing() {
   usePageTitle('Home')
+  const [logoHovered, setLogoHovered] = useState(false)
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column', position: 'relative' }}>
@@ -75,9 +76,32 @@ export default function Landing() {
 
       {/* ── Navbar ── */}
       <nav style={{ height: '56px', background: 'var(--bg2)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 clamp(16px, 4vw, 40px)', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div
+          onMouseEnter={() => setLogoHovered(true)}
+          onMouseLeave={() => setLogoHovered(false)}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'default' }}
+        >
           <img src="/VulnForge1.png" alt="VulnForge" style={{ height: '24px', width: '24px', objectFit: 'contain' }} />
-          <HackerText text="VulnForge" style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text)', letterSpacing: '-0.3px' }} duration={600} />
+          <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: '16px', fontWeight: '700', color: 'var(--text)', letterSpacing: '-0.3px', whiteSpace: 'nowrap', lineHeight: 1 }}>
+            V
+            <span style={{
+              display: 'inline-block',
+              maxWidth: logoHovered ? '60px' : '0px',
+              overflow: 'hidden',
+              opacity: logoHovered ? 1 : 0,
+              transition: 'max-width 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease',
+              whiteSpace: 'nowrap',
+            }}>uln</span>
+            F
+            <span style={{
+              display: 'inline-block',
+              maxWidth: logoHovered ? '60px' : '0px',
+              overflow: 'hidden',
+              opacity: logoHovered ? 1 : 0,
+              transition: 'max-width 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease',
+              whiteSpace: 'nowrap',
+            }}>orge</span>
+          </span>
           <span className="badge badge-green" style={{ fontSize: '10px' }}>v1.0</span>
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '10px' }}>
