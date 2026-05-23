@@ -1,12 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-
-const BRAND_STYLE = `
-  .vf-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; margin-right: 8px; }
-  .vf-logo-text { display: flex; align-items: center; font-size: 15px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); white-space: nowrap; }
-  .vf-expand { display: inline-block; max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0;
-    transition: max-width 0.40s cubic-bezier(0.4,0,0.2,1), opacity 0.30s ease; vertical-align: bottom; }
-  .vf-brand:hover .vf-expand { max-width: 80px; opacity: 1; }
-`
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import ThemeToggle from './ThemeToggle'
 import { TOOL_CATEGORIES, getToolsByCategory, getFrequentlyUsed } from '../config/toolsConfig'
@@ -16,6 +8,7 @@ export default function Navbar() {
   const [toolsOpen, setToolsOpen] = useState(false)
   const [activeToolCat, setActiveToolCat] = useState('frequent')
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const [logoHovered, setLogoHovered] = useState(false)
   const toolsRef = useRef(null)
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem('vulnforge_user') || 'null')
@@ -59,14 +52,35 @@ export default function Navbar() {
 
   return (
     <>
-      <style>{BRAND_STYLE}</style>
       <nav style={{ height: '56px', background: 'var(--bg2)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 clamp(12px, 3vw, 20px)', gap: '4px', position: 'sticky', top: 0, zIndex: 200 }}>
 
         {/* Brand */}
-        <Link to="/dashboard" className="vf-brand">
+        <Link
+          to="/dashboard"
+          onMouseEnter={() => setLogoHovered(true)}
+          onMouseLeave={() => setLogoHovered(false)}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', flexShrink: 0, marginRight: '8px' }}
+        >
           <img src="/VulnForge1.png" alt="VulnForge" style={{ height: '22px', width: '22px', objectFit: 'contain' }} />
-          <span className="vf-logo-text">
-            V<span className="vf-expand">uln</span>F<span className="vf-expand">orge</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: '15px', fontWeight: '700', color: 'var(--text)', letterSpacing: '-0.3px', whiteSpace: 'nowrap', lineHeight: 1 }}>
+            V
+            <span style={{
+              display: 'inline-block',
+              maxWidth: logoHovered ? '60px' : '0px',
+              overflow: 'hidden',
+              opacity: logoHovered ? 1 : 0,
+              transition: 'max-width 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease',
+              whiteSpace: 'nowrap',
+            }}>uln</span>
+            F
+            <span style={{
+              display: 'inline-block',
+              maxWidth: logoHovered ? '60px' : '0px',
+              overflow: 'hidden',
+              opacity: logoHovered ? 1 : 0,
+              transition: 'max-width 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease',
+              whiteSpace: 'nowrap',
+            }}>orge</span>
           </span>
           <span className="badge badge-green" style={{ fontSize: '10px', padding: '1px 6px' }}>v1.0</span>
         </Link>
